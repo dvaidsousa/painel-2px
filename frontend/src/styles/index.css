@@ -1,0 +1,68 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+
+:root {
+  /* Background Black */
+  --binance-black: #16161a;
+
+  /* Background Black 2 */
+  --binance-black2: #3d3d83;
+
+  /* Background Black 3 */
+  --binance-black3: #262631;
+
+  /* Background Black INPUTS */
+  --binance-black-input: #373747;
+  
+  /* Fonte titulos e Subtitulos */
+  --binance-white: #f0f0f0;
+
+  /* Fonte Verdes */
+  --binance-green: #27c027;
+
+  /* Fonte Verdes Hover */
+  --binance-green-hover: #3cca3c;
+
+  /* Fonte Verde Tabela */
+  --binance-green-table: #d4f8d3;
+
+  /* Fonte Vermelhos */
+  --binance-red: #e03d3d;
+
+  /* Fonte Vermelhos Hover */
+  --binance-red-hover: #ee4438;
+
+  /* Fonte Vermelhos Tabela */
+  --binance-red-table: #f8d4d4;
+
+  /* Botão Neutro */
+  --binance-black-button: #272733;
+
+  /* Botão Neutro Hover */
+  --binance-black-button-hover: #32323f;
+
+  /* Botão Azul */
+  --binance-blue: #007bff;
+
+  /* Botão Azul Hover */
+  --binance-blue-hover: #278bf7;
+}
+
+/* Adicionando uma classe para usar a variável */
+.bg-black-button {
+    background-color: var(--binance-black-button);
+}
+
+.bg-black-button:hover {
+    background-color: var(--binance-black-button-hover);
+}
+
+.valor-verde {
+    color: var(--binance-green);
+}
+
+.valor-vermelho {
+    color: var(--binance-red);
+}
