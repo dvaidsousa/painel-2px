@@ -6,68 +6,65 @@
           <div class="flex flex-col flex-1 px-3 mt-6">
             <div class="space-y-4">
               <nav class="flex-1 space-y-2">
+
                 <!-- Dashboard -->
                 <router-link
                   to="/dashboard"
-                  class="flex items-center px-4 py-2.5 text-sm font-medium rounded-lg group"
+                  class="flex items-center px-4 py-2.5 text-sm font-medium group"
                   :class="[isActive('/dashboard') ? 'active-item' : 'inactive-item']"
                   style="transition: background-color 0.2s ease-in-out;"
                 >
-                  <i
-                    class="fa-solid fa-square-poll-vertical flex-shrink-0 w-5 h-5 mr-4"
-                    :class="isActive('/dashboard') ? 'text-white' : 'text-white'"
-                  ></i>
-                  Dashboard
+                  DASHBOARD
                 </router-link>
 
-                <!-- Finança Pessoal -->
+                <!-- Ferramentas -->
                 <router-link
                   to="/ferramentas"
-                  class="flex items-center px-4 py-2.5 text-sm font-medium rounded-lg group"
+                  class="flex items-center px-4 py-2.5 text-sm font-medium group"
                   :class="[isActive('/ferramentas') ? 'active-item' : 'inactive-item']"
                   style="transition: background-color 0.2s ease-in-out;"
                 >
-                  <i class="fa-solid fa-coins flex-shrink-0 w-5 h-5 mr-4" :class="isActive('/ferramentas') ? 'text-white' : 'text-white'"></i>
-                  Ferramentas
+                  FERRAMENTAS
                 </router-link>
 
-                <!-- Etiquetas -->
+                <!-- links úteis -->
                 <router-link
-                  to="/etiquetas"
-                  class="flex items-center px-4 py-2.5 text-sm font-medium rounded-lg group"
-                  :class="[isActive('/etiquetas') ? 'active-item' : 'inactive-item']"
+                  to="/links-uteis"
+                  class="flex items-center px-4 py-2.5 text-sm font-medium group"
+                  :class="[isActive('/links-uteis') ? 'active-item' : 'inactive-item']"
                   style="transition: background-color 0.2s ease-in-out;"
                 >
-                  <i class="fa-solid fa-clipboard-check flex-shrink-0 w-5 h-5 mr-4" :class="isActive('/etiquetas') ? 'text-white' : 'text-white'"></i>
-                  Cursos Online
+                  LINKS ÚTEIS
                 </router-link>
 
-                <!-- Controle de Contas -->
+                <!-- Cursos Online -->
                 <router-link
-                  to="/controle-contas"
-                  class="flex items-center px-4 py-2.5 text-sm font-medium rounded-lg group"
-                  :class="[isActive('/controle-contas') ? 'active-item' : 'inactive-item']"
+                  to="/cursos-online"
+                  class="flex items-center px-4 py-2.5 text-sm font-medium group"
+                  :class="[isActive('/cursos-online') ? 'active-item' : 'inactive-item']"
                   style="transition: background-color 0.2s ease-in-out;"
                 >
-                  <i
-                    class="fa-solid fa-mug-hot flex-shrink-0 w-5 h-5 mr-4"
-                    :class="isActive('/controle-contas') ? 'text-white' : 'text-white'"
-                  ></i>
-                  Eventos
+                  CURSOS ONLINE
                 </router-link>
 
-                <!-- Investimentos -->
+                <!-- Eventos -->
                 <router-link
-                  to="/investimentos"
-                  class="flex items-center px-4 py-2.5 text-sm font-medium rounded-lg group"
-                  :class="[isActive('/investimentos') ? 'active-item' : 'inactive-item']"
+                  to="/eventos"
+                  class="flex items-center px-4 py-2.5 text-sm font-medium group"
+                  :class="[isActive('/eventos') ? 'active-item' : 'inactive-item']"
                   style="transition: background-color 0.2s ease-in-out;"
                 >
-                  <i
-                    class="fa-solid fa-seedling flex-shrink-0 w-5 h-5 mr-4"
-                    :class="isActive('/investimentos') ? 'text-white' : 'text-white'"
-                  ></i>
-                  Notas
+                  EVENTOS
+                </router-link>
+
+                <!-- Notas -->
+                <router-link
+                  to="/notas"
+                  class="flex items-center px-4 py-2.5 text-sm font-medium group"
+                  :class="[isActive('/notas') ? 'active-item' : 'inactive-item']"
+                  style="transition: background-color 0.2s ease-in-out;"
+                >
+                  NOTAS
                 </router-link>
               </nav>
             </div>

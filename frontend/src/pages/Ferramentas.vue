@@ -2,9 +2,6 @@
 import { ref, onMounted } from 'vue';
 import Headers from "../components/Global/Headers.vue";
 import Sidebar from "../components/Global/Sidebar.vue";
-import FinanceForm from "../components/FinancaPessoal/FinanceForm.vue";
-import FinanceTable from "../components/FinancaPessoal/FinanceTable.vue";
-import ButtonScroll from "../components/Global/ButtonScroll.vue";
 import Footers from "../components/Global/Footers.vue";
 import { listarFinancas } from '../services/financasService';
 
@@ -12,52 +9,8 @@ export default {
   components: {
     Headers,
     Sidebar,
-    FinanceForm,
-    FinanceTable,
-    ButtonScroll,
     Footers,
-  },
-  setup() {
-    const tabelaDados = ref([]);
-    const erroCarregamento = ref(null);
-
-    const carregarDados = async () => {
-      try {
-        const response = await listarFinancas();
-        tabelaDados.value = response;
-        erroCarregamento.value = null;
-      } catch (error) {
-        erroCarregamento.value = error.message;
-        console.error('Erro de conexão:', error);
-      }
-    };
-
-    const manipularTabela = (entrada) => {
-      if (!entrada || !entrada.id) {
-        return;
-      }
-
-      const index = tabelaDados.value.findIndex(item => item.id === entrada.id);
-      if (index !== -1) {
-        // Atualiza o item existente
-        tabelaDados.value[index] = entrada;
-      } else {
-        // Adiciona novo item
-        tabelaDados.value.push(entrada);
-      }
-
-      // Recarregar a tabela após adicionar uma nova entrada
-      carregarDados(); // Chama a função para recarregar as finanças
-    };
-
-    onMounted(carregarDados);
-
-    return {
-      tabelaDados,
-      erroCarregamento,
-      manipularTabela,
-    };
-  },
+  }
 };
 </script>
 
@@ -68,22 +21,17 @@ export default {
       <div class="flex-container">
         <Sidebar class="sidebar" />
         <div class="container">
-          <h1>Movimentação Financeira</h1>
+          <h1>FERRAMENTAS</h1>
           <br>
-          <FinanceForm @novaEntrada="manipularTabela" :atualizarTabela="manipularTabela" />
-          <FinanceTable
-            :tabelaDados="tabelaDados" 
-            @atualizar-tabela="manipularTabela" 
-            :linhaId="tabelaDados.map(item => item.id)" 
-            :atualizarTabela="manipularTabela"
-            class="table-container"
-          />
-          <div v-if="erroCarregamento" class="error-message">
-            {{ erroCarregamento }}
-          </div>
+          <h2>- Canva Pro</h2>
+          <button @click="window.open('https://www.exemplo.com', '_blank')" class="access-button canva-button">Acessar Canva Pro</button>
+          <hr class="divider" />
+          <br>
+          <h2>- CapCut Pro</h2>
+          <button @click="window.open('https://www.exemplo.com', '_blank')" class="access-button capcut-button">Acessar CapCut Pro</button>
+          <hr class="divider" />
         </div>
       </div>
-      <ButtonScroll />
       <Footers />
     </div>
   </section>
@@ -115,14 +63,46 @@ h1 {
   padding: 0 0 0 40px; /* Remove padding lateral */
 }
 
+h2 {
+  font-family: 'Lato', sans-serif;
+  font-size: 22px;
+  color: var(--binance-white);
+  padding: 0 0 0 40px; /* Padding lateral para o subtítulo */
+}
+
+.access-button {
+  color: white; /* Cor do texto do botão */
+  border: none; /* Remove borda */
+  border-radius: 5px;
+  padding: 10px 20px; /* Padding do botão */
+  cursor: pointer; /* Cursor de ponteiro ao passar o mouse */
+  margin-left: 40px; /* Margem lateral para alinhar com o texto */
+  margin-top: 20px;
+}
+
+.canva-button {
+  background: linear-gradient(90deg, #07a7d3, #0072ff); /* Azul degradê */
+}
+
+.capcut-button {
+  background-color: white; /* Fundo branco para o botão do CapCut */
+  color: black; /* Texto preto para o botão do CapCut */
+}
+
+.access-button:hover {
+  opacity: 0.8; /* Efeito de hover */
+}
+
+.divider {
+  border: none;
+  border-top: 1px solid #cacacac5; /* Linha traçada em cima */
+  margin: 40px 40px 0px 40px; /* Margem para alinhar com o botão */
+}
+
 .error-message {
   color: var(--binance-red);
   font-weight: bold;
   margin-top: 10px;
-}
-
-.table-container {
-  margin-bottom: 30px;
 }
 
 @media (min-width: 768px) {

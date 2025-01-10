@@ -5,7 +5,7 @@
       <div class="flex-container">
         <Sidebar class="sidebar" />
         <div class="container">
-          <h1>Dashboard</h1>
+          <h1>DASHBOARD</h1>
           <div class="date-filter">
             <label for="startDate" class="filter-label">Data Inicial:</label>
             <input type="date" id="startDate" v-model="startDate" class="date-input" />

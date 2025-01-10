@@ -101,7 +101,7 @@ section {
 hr {
   border: none;
   height: 2px;
-  background: linear-gradient(to right, #ff7f5f00, #F0B90B, #ff7f5f00); /* Amarelo Binance */
+  background: linear-gradient(to right, #ff7f5f00, #a30909, #ff7f5f00); /* Amarelo Binance */
 }
 
 #logos {
