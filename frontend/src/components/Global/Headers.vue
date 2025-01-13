@@ -1,3 +1,49 @@
+<template>
+  <section>
+    <nav id="nav" class="flex items-center justify-between flex-wrap p-6 w-full top-0">
+      <div class="flex items-center flex-shrink-0">
+        <a href="/dashboard">
+          <img id="logos" src="/src/assets/logo-nof.png" alt="Image description" class="w-32 rounded-lg" />
+        </a>
+      </div>
+
+      <!-- Icone hamburguer -->
+      <div class="block lg:hidden">
+        <button id="nav-toggle" class="flex items-center px-3 py-1 border rounded text-white border-gray-800 hover:text-white hover:border-white">
+          <svg class="fill-current h-8 w-8" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+            <title>Menu</title>
+            <path d="M0 3h20v2H0V3zm0 6h20v2H0V9zm0 6h20v2H0v-2z"/>
+          </svg>
+        </button>
+      </div>
+
+      <div class="w-full flex-grow lg:flex lg:items-center lg:w-auto hidden pt-2 lg:pt-0" id="nav-content">
+        <ul class="list-reset lg:flex justify-end flex-1 items-center">
+          <li>
+            <a href="https://drive.google.com/drive/folders/1skE-HQSZWQg67occULSXlzjMhnu-k1Ol?usp=sharing" class="button-ebook">
+              <span class="ebook">Ebook's</span>
+            </a>
+          </li>
+          <ButtonReload style="margin-right: 0.5rem;" />
+          <ButtonNotify style="margin-right: 1rem; margin-top: 0.2rem;" />
+          <ButtonProfile style="margin-left: 0.5rem; margin-top: -0.1rem;" />
+          <li class="flex items-center">
+            <button class="button-suporte" @click="support">
+              <span class="suporte">Suporte</span>
+            </button>
+          </li>
+          <li>
+            <button class="button-sair" @click="logout">
+              <span class="sair">Sair</span>
+            </button>
+          </li>
+        </ul>
+      </div>
+    </nav>
+    <hr>
+  </section>
+</template>
+
 <script>
 import { useToast } from 'vue-toastification';
 import ButtonReload from './Headers/ButtonReload.vue';
@@ -53,47 +99,6 @@ export default {
 }
 </script>
 
-<template>
-  <section>
-    <nav id="nav" class="flex items-center justify-between flex-wrap p-6 w-full top-0">
-      <div class="flex items-center flex-shrink-0">
-        <a href="/dashboard">
-          <img id="logos" src="/src/assets/logo-nof.png" alt="Image description" class="w-32 rounded-lg" />
-        </a>
-      </div>
-
-      <!-- Icone hamburguer -->
-      <div class="block lg:hidden">
-        <button id="nav-toggle" class="flex items-center px-3 py-1 border rounded text-white border-gray-800 hover:text-white hover:border-white">
-          <svg class="fill-current h-8 w-8" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
-            <title>Menu</title>
-            <path d="M0 3h20v2H0V3zm0 6h20v2H0V9zm0 6h20v2H0v-2z"/>
-          </svg>
-        </button>
-      </div>
-
-      <div class="w-full flex-grow lg:flex lg:items-center lg:w-auto hidden pt-2 lg:pt-0" id="nav-content">
-        <ul class="list-reset lg:flex justify-end flex-1 items-center">
-          <ButtonReload style="margin-right: 0.5rem;" />
-          <ButtonNotify style="margin-right: 1rem; margin-top: 0.2rem;" />
-          <ButtonProfile style="margin-left: 0.5rem; margin-top: -0.1rem;" />
-          <li class="flex items-center">
-            <button class="button-suporte" @click="support">
-              <span class="suporte">Suporte</span>
-            </button>
-          </li>
-          <li>
-            <button class="button-sair" @click="logout">
-              <span class="sair">Sair</span>
-            </button>
-          </li>
-        </ul>
-      </div>
-    </nav>
-    <hr>
-  </section>
-</template>
-
 <style scoped>
 
 section {
@@ -146,6 +151,16 @@ hr {
 
 .sair:hover {
   background-color: var(--binance-red-hover);
+}
+
+.button-ebook {
+  font-family: 'Lato', sans-serif;
+  font-size: 14px;
+  color: var(--binance-white);
+  font-weight: bold;
+  padding: 0.30rem 0.85rem;
+  border-radius: 0.375rem;
+  background-color: #434343;
 }
 
 li {

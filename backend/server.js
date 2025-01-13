@@ -3,7 +3,7 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const cors = require('cors');
 const authRoutes = require('./routes/auth');
-const passwordRoutes = require('./routes/password');
+const notasRoutes = require('./routes/notas');
 const { sequelize } = require('./models');
 const authenticateToken = require('./middleware/auth');
 
@@ -19,7 +19,7 @@ app.use(cors(corsOptions));
 app.use(bodyParser.json());
 
 app.use('/api/auth', authRoutes);
-app.use('/api/password', passwordRoutes);
+app.use('/api/notas', notasRoutes);
 
 async function initializeDatabase() {
   try {
