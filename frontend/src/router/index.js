@@ -6,10 +6,9 @@ import ResetPassAfter from '../pages/ResetPassAfter.vue';
 import Dashboard from '../pages/Dashboard.vue';
 import Ferramentas from '../pages/Ferramentas.vue';
 import CursosOnline from '../pages/CursosOnline.vue';
-import ControleContas from '../pages/ControleContas.vue';
-import Investimentos from '../pages/Investimentos.vue';
 import NotFound from '../pages/NotFound.vue';
 import LinksUteis from '../pages/LinksUteis.vue';
+import Profile from '../pages/Profile.vue';
 
 const routes = [
   { path: '/', name: 'Login', component: Login, meta: { requiresAuth: false } },
@@ -22,12 +21,11 @@ const routes = [
     meta: { requiresAuth: false },
     props: true, // Passa o token como prop para o componente
   },
+  { path: '/profile', name: 'Profile', component: Profile, meta: { requiresAuth: true } },
   { path: '/dashboard', name: 'Dashboard', component: Dashboard, meta: { requiresAuth: true } },
   { path: '/ferramentas', name: 'Ferramentas', component: Ferramentas, meta: { requiresAuth: true } },
   { path: '/links-uteis', name: 'LinksUteis', component: LinksUteis, meta: { requiresAuth: true } },
   { path: '/cursos-online', name: 'CursosOnline', component: CursosOnline, meta: { requiresAuth: true } },
-  { path: '/controle-contas', name: 'ControleContas', component: ControleContas, meta: { requiresAuth: true } },
-  { path: '/investimentos', name: 'Investimentos', component: Investimentos, meta: { requiresAuth: true } },
   { path: '/:pathMatch(.*)*', name: 'NotFound', component: NotFound },
 ];
 

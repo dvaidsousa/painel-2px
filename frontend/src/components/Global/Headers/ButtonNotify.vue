@@ -38,7 +38,7 @@ export default {
 }
   
 .notification:hover {
-    color: var(--binance-yellow);
+    color: var(--binance-red);
 }
 
 .dropdown {

@@ -12,6 +12,13 @@
             <label for="endDate" class="filter-label">Data Final:</label>
             <input type="date" id="endDate" v-model="endDate" class="date-input" />
             <button @click="filterData" class="filter-button">Filtrar</button>
+            <select v-model="selectedDays" @change="setDateRange" class="days-select">
+              <option value="">Selecionar período</option>
+              <option value="7">Últimos 7 dias</option>
+              <option value="15">Últimos 15 dias</option>
+              <option value="30">Últimos 30 dias</option>
+              <option value="60">Últimos 60 dias</option>
+            </select>
           </div>
           <div class="container-dashboard">
             <div class="charts-row">
@@ -48,7 +55,7 @@ import Sidebar from "../components/Global/Sidebar.vue";
 import ButtonScroll from "../components/Global/ButtonScroll.vue";
 import Footers from "../components/Global/Footers.vue";
 import ChartSection from "../components/Dashboard/ChartSection.vue";
-import { ref } from "vue";
+import { ref, onMounted } from "vue";
 
 export default {
   components: {
@@ -61,7 +68,8 @@ export default {
   setup() {
     const startDate = ref('');
     const endDate = ref('');
-    
+    const selectedDays = ref('');
+
     const facebookAdsData = ref({
       labels: ["investimento", "Leads", "Custo por Lead", "CPM", "Impressões"],
       datasets: [
@@ -100,17 +108,49 @@ export default {
       // Atualizar os dados filtrados conforme necessário
     };
 
+    const setDateRange = () => {
+      const today = new Date();
+      const end = today.toISOString().split('T')[0];
+      let start;
+
+      switch (selectedDays.value) {
+        case '7':
+          start = new Date(today.setDate(today.getDate() - 7)).toISOString().split('T')[0];
+          break;
+        case '15':
+          start = new Date(today.setDate(today.getDate() - 15)).toISOString().split('T')[0];
+          break;
+        case '30':
+          start = new Date(today.setDate(today.getDate() - 30)).toISOString().split('T')[0];
+          break;
+        case '60':
+          start = new Date(today.setDate(today.getDate() - 60)).toISOString().split('T')[0];
+          break;
+        default:
+          start = '';
+      }
+
+      startDate.value = start;
+      endDate.value = end;
+    };
+
     const filteredFacebookAdsData = ref(facebookAdsData.value);
     const filteredSocialMediaUsersData = ref(socialMediaUsersData.value);
     const filteredGoogleAdsData = ref(googleAdsData.value);
 
+    onMounted(() => {
+      document.title = "Dashboard - Painel 2px"; // Atualiza o título da aba do navegador
+    });
+
     return {
       startDate,
       endDate,
+      selectedDays,
       filteredFacebookAdsData,
       filteredSocialMediaUsersData,
       filteredGoogleAdsData,
       filterData,
+      setDateRange,
     };
   },
 };
@@ -119,7 +159,7 @@ export default {
 <style scoped>
 .flex-container {
   display: flex;
-  flex-direction: row; /* Alterado para row para que o sidebar e o conteúdo fiquem lado a lado */
+  flex-direction: row;
   align-items: stretch;
 }
 
@@ -132,7 +172,7 @@ export default {
 
 .sidebar {
   height: 145vh;
-  flex: 0 0 250px; /* Largura fixa para a sidebar */
+  flex: 0 0 250px;
 }
 
 h1 {
@@ -168,9 +208,17 @@ h1 {
   color: var(--binance-white);
 }
 
+.days-select {
+  margin-left: 50px;
+  padding: 5px;
+  border-radius: 5px;
+  background-color: #616161;
+  color: var(--binance-white);
+}
+
 .filter-button {
   padding: 5px 10px;
-  background-color: var(--binance-yellow);
+  background-color: var(--binance-white);
   border: none;
   border-radius: 5px;
   cursor: pointer;
@@ -179,7 +227,7 @@ h1 {
 }
 
 .filter-button:hover {
-  background-color: var(--binance-white);
+  background-color: #c4c4c4;
   color: var(--binance-black);
 }
 </style>

@@ -41,15 +41,31 @@
 
                 <div v-if="step === 2">
                   <div>
-                    <label for="username" class="label">Nome de Usuário</label>
+                    <label for="username" class="label">Nome do Responsável</label>
                     <div class="input-wrapper">
                       <div class="icon">
                         <i class="fa-solid fa-user"></i>
                       </div>
                       <input
-                        v-model="username"
-                        id="username"
-                        placeholder="Digite seu nome de usuário"
+                        v-model="responsavel"
+                        id="responsavel"
+                        placeholder="Digite o nome do responsável"
+                        class="input"
+                        required
+                      />
+                    </div>
+                  </div>
+
+                  <div>
+                    <label for="nomeEmpresa" class="label">Nome da Empresa</label>
+                    <div class="input-wrapper">
+                      <div class="icon">
+                        <i class="fa-solid fa-building"></i>
+                      </div>
+                      <input
+                        v-model="nomeEmpresa"
+                        id="nomeEmpresa"
+                        placeholder="Digite o nome da sua empresa"
                         class="input"
                         required
                       />
@@ -139,7 +155,8 @@ export default {
   data() {
     return {
       step: 1,
-      username: '',
+      responsavel: '',
+      nomeEmpresa: '',
       email: '',
       password: '',
       telefone: '',
@@ -194,7 +211,8 @@ export default {
 
       try {
         const response = await axios.post('http://localhost:3000/api/auth/register', {
-          username: this.username,
+          responsavel: this.responsavel,
+          nomeEmpresa: this.nomeEmpresa,
           email: this.email,
           telefone: this.telefone,
           password: this.password,

@@ -22,6 +22,12 @@ export default {
       const whatsappUrl = `https://wa.me/${phoneNumber}?text=${encodeURIComponent(message)}`;
       window.open(whatsappUrl, '_blank');
     },
+    support() {
+      const phoneNumber = '13996679977';
+      const message = 'Olá, preciso de suporte na 2px';
+      const whatsappUrl = `https://wa.me/${phoneNumber}?text=${encodeURIComponent(message)}`;
+      window.open(whatsappUrl, '_blank');
+    },
     logout() {
       localStorage.removeItem('token');
       this.showToast('Você saiu com sucesso!');
@@ -72,7 +78,7 @@ export default {
           <ButtonNotify style="margin-right: 1rem; margin-top: 0.2rem;" />
           <ButtonProfile style="margin-left: 0.5rem; margin-top: -0.1rem;" />
           <li class="flex items-center">
-            <button class="button-suporte">
+            <button class="button-suporte" @click="support">
               <span class="suporte">Suporte</span>
             </button>
           </li>
@@ -105,13 +111,13 @@ hr {
 }
 
 #logos {
-  width: 5vw;
+  width: 4vw;
   padding: 9px 5px;
 }
 
 .button-suporte {
   font-family: 'Lato', sans-serif;
-  font-size: 1.1rem;
+  font-size: 1rem;
   color: #ffffff;
   font-weight: bold;
 }
@@ -127,7 +133,7 @@ hr {
 
 .button-sair {
   font-family: 'Lato', sans-serif;
-  font-size: 1.1rem; 
+  font-size: 1rem; 
   color: var(--binance-white); 
   font-weight: bold;
 }

@@ -4,10 +4,6 @@ const bodyParser = require('body-parser');
 const cors = require('cors');
 const authRoutes = require('./routes/auth');
 const passwordRoutes = require('./routes/password');
-const financaRoutes = require('./routes/financas');
-const contasRoutes = require('./routes/contas');
-const etiquetasRoutes = require('./routes/etiquetas');
-const investimentosRoutes = require('./routes/investimentos');
 const { sequelize } = require('./models');
 const authenticateToken = require('./middleware/auth');
 
@@ -24,10 +20,6 @@ app.use(bodyParser.json());
 
 app.use('/api/auth', authRoutes);
 app.use('/api/password', passwordRoutes);
-app.use('/api/financas', authenticateToken, financaRoutes);
-app.use('/api/contas', authenticateToken, contasRoutes);
-app.use('/api', etiquetasRoutes);
-app.use('/api/investimentos', authenticateToken, investimentosRoutes);
 
 async function initializeDatabase() {
   try {

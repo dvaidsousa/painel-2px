@@ -8,7 +8,11 @@ module.exports = (sequelize, DataTypes) => {
         primaryKey: true,
         autoIncrement: true,
       },
-      name: {
+      responsavel: {
+        type: DataTypes.STRING(100),
+        allowNull: false,
+      },
+      nomeEmpresa: {
         type: DataTypes.STRING(100),
         allowNull: false,
       },
@@ -40,6 +44,10 @@ module.exports = (sequelize, DataTypes) => {
       resetTokenExpire: {
         type: DataTypes.DATE,
         allowNull: true,
+      },
+      perfilImagem: { // Coluna para armazenar a imagem de perfil
+        type: DataTypes.BLOB('long'), // Altera para armazenar a imagem como binário
+        allowNull: true, // Permite que o campo seja nulo
       },
       createdAt: {
         allowNull: false,

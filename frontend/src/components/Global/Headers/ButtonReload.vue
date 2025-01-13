@@ -29,7 +29,7 @@ export default {
 }
 
 .reload-button:hover {
-  color: var(--binance-yellow);
+  color: #dddddd;
 }
 
 </style>

@@ -73,6 +73,9 @@ import axios from 'axios';
 import { useToast } from 'vue-toastification';
 
 export default {
+  mounted() {
+    document.title = "Login - Painel 2px";
+  },
   data() {
     return { email: '', password: '' };
   },
