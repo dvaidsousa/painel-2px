@@ -3,7 +3,6 @@ const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const { User } = require('../models'); // Certifique-se de que o modelo User está exportado corretamente
 const rateLimit = require('express-rate-limit');
-const multer = require('multer'); // Importando multer para upload de arquivos
 
 const router = express.Router();
 const secret = process.env.JWT_SECRET;
@@ -23,46 +22,14 @@ const limiter = rateLimit({
 // Aplicar o rate limiter às rotas de autenticação
 router.use(limiter);
 
-// Configuração do multer para upload de imagens
-const storage = multer.memoryStorage(); // Armazena o arquivo como buffer na memória
-const upload = multer({ storage });
-
 // Função para validar entrada de dados
 const validateInput = (fields) => {
   return fields.every((field) => field && field.trim() !== '');
 };
 
-// Rota para atualizar a imagem de perfil do usuário
-router.put('/user/:id/upload', upload.single('perfilImagem'), async (req, res) => {
-  const perfilImagem = req.file ? req.file.buffer : null; // Obtendo o buffer da imagem (pode ser nulo)
-
-  try {
-    const user = await User.findByPk(req.params.id);
-    if (!user) {
-      return res.status(404).json({ error: 'Usuário não encontrado.' });
-    }
-
-    if (!perfilImagem) {
-      return res.status(400).json({ error: 'Nenhuma imagem foi enviada.' });
-    }
-
-    user.perfilImagem = perfilImagem; // Atualiza a imagem de perfil
-    await user.save(); // Salva as alterações no banco de dados
-
-    res.json({
-      message: 'Imagem de perfil atualizada com sucesso!',
-      perfilImagem: user.perfilImagem,
-    });
-  } catch (error) {
-    console.error('Erro ao atualizar imagem de perfil:', error);
-    res.status(500).json({ error: 'Erro ao atualizar imagem de perfil.' });
-  }
-});
-
 // Registro de usuário
-router.post('/register', upload.single('perfilImagem'), async (req, res) => {
+router.post('/register', async (req, res) => {
   const { responsavel, nomeEmpresa, email, telefone, password } = req.body;
-  const perfilImagem = req.file ? req.file.buffer : null; // Obtendo o buffer da imagem (pode ser nulo)
 
   if (!validateInput([responsavel, nomeEmpresa, email, telefone, password])) {
     return res.status(400).json({ error: 'Preencha todos os campos!' });
@@ -80,38 +47,16 @@ router.post('/register', upload.single('perfilImagem'), async (req, res) => {
       nomeEmpresa,
       email,
       telefone,
-      password: hashedPassword,
-      perfilImagem, // Permite que seja nulo
+      password: hashedPassword
     });
 
     res.status(201).json({
       message: 'Usuário criado com sucesso!',
-      user: { id: newUser.id, responsavel: newUser.responsavel, nomeEmpresa: newUser.nomeEmpresa, email: newUser.email, perfilImagem: newUser.perfilImagem ? newUser.perfilImagem.toString('base64') : null },
+      user: { id: newUser.id, responsavel: newUser.responsavel, nomeEmpresa: newUser.nomeEmpresa, email: newUser.email },
     });
   } catch (error) {
     console.error('Erro ao registrar usuário:', error);
     res.status(500).json({ error: 'Erro ao registrar usuário.' });
-  }
-});
-
-// Rota para obter dados do usuário, incluindo a imagem de perfil
-router.get('/user/:id', async (req, res) => {
-  try {
-    const user = await User.findByPk(req.params.id);
-    if (!user) {
-      return res.status(404).json({ error: 'Usuário não encontrado.' });
-    }
-    res.json({
-      id: user.id,
-      responsavel: user.responsavel,
-      nomeEmpresa: user.nomeEmpresa,
-      email: user.email,
-      telefone: user.telefone,
-      perfilImagem: user.perfilImagem ? user.perfilImagem.toString('base64') : null,
-    });
-  } catch (error) {
-    console.error('Erro ao buscar usuário:', error);
-    res.status(500).json({ error: 'Erro ao buscar usuário.' });
   }
 });
 
@@ -138,11 +83,42 @@ router.post('/login', async (req, res) => {
 
     res.json({
       token,
-      user: { id: user.id, responsavel: user.responsavel, nomeEmpresa: user.nomeEmpresa, email: user.email, perfilImagem: user.perfilImagem ? user.perfilImagem.toString('base64') : null },
+      user: { id: user.id, responsavel: user.responsavel, nomeEmpresa: user.nomeEmpresa, email: user.email },
     });
   } catch (error) {
     console.error('Erro ao fazer login:', error);
     res.status(500).json({ error: 'Erro ao fazer login.' });
+  }
+});
+
+// Middleware de autenticação
+const authenticateToken = (req, res, next) => {
+  const token = req.headers.authorization?.split(' ')[1];
+  if (!token) return res.status(401).json({ error: 'Token não fornecido.' });
+
+  try {
+    const decoded = jwt.verify(token, secret);
+    req.user = decoded; // Inclui o ID do usuário no objeto de requisição
+    next();
+  } catch (error) {
+    return res.status(401).json({ error: 'Token inválido.' });
+  }
+};
+
+// Nova rota para buscar dados do usuário autenticado
+router.get('/user', authenticateToken, async (req, res) => {
+  try {
+    const user = await User.findByPk(req.user.id);
+    if (!user) {
+      return res.status(404).json({ error: 'Usuário não encontrado.' });
+    }
+
+    res.json({
+      user: { id: user.id, responsavel: user.responsavel, nomeEmpresa: user.nomeEmpresa, email: user.email, telefone: user.telefone },
+    });
+  } catch (error) {
+    console.error('Erro ao buscar dados do usuário:', error);
+    res.status(500).json({ error: 'Erro ao buscar dados do usuário.' });
   }
 });
 

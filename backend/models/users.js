@@ -45,10 +45,6 @@ module.exports = (sequelize, DataTypes) => {
         type: DataTypes.DATE,
         allowNull: true,
       },
-      perfilImagem: { // Coluna para armazenar a imagem de perfil
-        type: DataTypes.BLOB('long'), // Altera para armazenar a imagem como binário
-        allowNull: true, // Permite que o campo seja nulo
-      },
       createdAt: {
         allowNull: false,
         type: DataTypes.DATE,

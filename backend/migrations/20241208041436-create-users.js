@@ -46,10 +46,6 @@ module.exports = {
         type: Sequelize.DATE,
         allowNull: true,
       },
-      perfilImagem: { 
-        type: Sequelize.BLOB('long'), // Use Sequelize.BLOB para mapeamento automático
-        allowNull: true,
-      },
       createdAt: {
         type: Sequelize.DATE,
         allowNull: false,
