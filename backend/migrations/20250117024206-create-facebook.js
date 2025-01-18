@@ -8,20 +8,20 @@ module.exports = {
         autoIncrement: true,
         primaryKey: true,
       },
-      valor: {
+      investimento: {
+        type: Sequelize.DECIMAL(10, 2), // Alterado para INTEGER
+        allowNull: false,
+      },
+      leads: {
         type: Sequelize.DECIMAL(10, 2),
         allowNull: false,
       },
-      tipo: {
-        type: Sequelize.ENUM('entrada', 'saida'),
+      custoPorLead: {
+        type: Sequelize.DECIMAL(10, 2), // Alterado para INTEGER
         allowNull: false,
       },
-      dataEntrada: {
-        type: Sequelize.DATEONLY,
-        allowNull: false,
-      },
-      descricao: {
-        type: Sequelize.STRING(255),
+      impressao: {
+        type: Sequelize.DECIMAL(10, 2),
         allowNull: false,
       },
       createdAt: {

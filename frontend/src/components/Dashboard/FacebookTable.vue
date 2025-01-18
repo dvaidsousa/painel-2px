@@ -13,11 +13,6 @@
             <option value="30">30</option>
           </select>
         </div>
-        <div class="saldo-container">
-          <label>Saldo:</label>
-          <span> R$ </span>
-          <span :style="{ color: saldo > 0 ? '#3cca3c' : saldo < 0 ? '#ec1b1b' : 'white' }">{{ saldo }}</span>
-        </div>
         <div class="date-filter">
           <label for="startDate">De:</label>
           <input type="date" v-model="startDate" id="startDate" @change="filtrarPorData" />
@@ -28,33 +23,22 @@
       <table class="facebook-table" v-if="!isLoading">
         <thead>
           <tr>
-            <th>Valor</th>
-            <th>Tipo</th>
-            <th>Data de Entrada</th>
-            <th>Descrição</th>
-            <th>Ações</th>
+            <th>Investimento</th>
+            <th>Leads</th>
+            <th>Custo por Lead</th>
+            <th>Impressões</th>
           </tr>
         </thead>
         <tbody>
           <tr
             v-for="(item, index) in paginatedData"
             :key="item.id || index"
-            :class="{
-              'entrada': item.tipo === 'entrada',
-              'saida': item.tipo === 'saida'
-            }"
           >
-            <td :style="{ color: item.tipo === 'saida' ? '#ec1b1b' : '#3cca3c' }">{{ item.tipo === 'saida' ? '-' : '' }}R$ {{ item.valor }}</td>
-            <td>{{ item.tipo === 'entrada' ? 'Entrada' : 'Saída' }}</td>
-            <td>{{ item.dataEntrada }}</td>
-            <td>{{ item.descricao }}</td>
+            <td :style="{ color: item.tipo }">{{ item.investimento ? item.investimento : '0.00' }}</td>
+            <td>{{ item.leads || 0 }}</td>
+            <td>{{ item.custoPorLead ? item.custoPorLead: '0.00' }}</td>
+            <td>{{ item.impressões || 0 }}</td>
             <td>
-              <button class="icon-button" @click="abrirPopup(item)" title="Editar">
-                <i class="fa fa-edit"></i>
-              </button>
-              <button class="icon-button" @click="abrirModalConfirmacao(item.id)" title="Excluir">
-                <i class="fa fa-trash"></i>
-              </button>
             </td>
           </tr>
         </tbody>
@@ -65,35 +49,14 @@
         <span>Página {{ currentPage }} de {{ totalPages }}</span>
         <button @click="nextPage" :disabled="currentPage === totalPages">Próx</button>
       </div>
-  
-      <ConfirmModal 
-        :visible="modalVisivel" 
-        @confirm="deletarLinha" 
-        @cancel="fecharModalConfirmacao" 
-      />
-  
-      <EditTable
-        :linha="linhaEditada"
-        :isVisible="popupVisivel"
-        @salvar-edicao="salvarEdicao"
-        @fechar-popup="fecharPopup"
-        @atualizar-tabela="atualizarTabela"
-      />
     </div>
-  </template>
-  
+  </template>  
   <script>
   import { ref, onMounted, computed } from 'vue';
-  import EditTable from './EditButtonTable.vue';
-  import ConfirmModal from '../Dashboard/ConfirmModal.vue';
-  import { editarLinha, deletarLinha as deletarLinhaAPI, listarFacebook } from '../../services/facebookService';
+  import { listarFacebook } from '../../services/facebookService';
   import { useToast } from 'vue-toastification';
   
   export default {
-    components: {
-      EditTable,
-      ConfirmModal,
-    },
     props: {
       tabelaDados: {
         type: Array,
@@ -112,10 +75,7 @@
     setup(props) {
       const toast = useToast();
       const isLoading = ref(false);
-      const popupVisivel = ref(false);
-      const linhaEditada = ref(null);
       const modalVisivel = ref(false);
-      const linhaParaDeletar = ref(null);
       const currentPage = ref(1);
       const itemsPerPage = ref(15);
       const startDate = ref('');
@@ -140,16 +100,6 @@
         return filtradosPorData.value.slice(start, end);
       });
   
-      const saldo = computed(() => {
-        const entradas = props.tabelaDados
-          .filter(item => item.tipo === 'entrada')
-          .reduce((acc, item) => acc + parseFloat(item.valor), 0);
-        const saidas = props.tabelaDados
-          .filter(item => item.tipo === 'saida')
-          .reduce((acc, item) => acc + parseFloat(item.valor), 0);
-        return entradas - saidas;
-      });
-  
       const nextPage = () => {
         if (currentPage.value < totalPages.value) {
           currentPage.value++;
@@ -159,91 +109,6 @@
       const prevPage = () => {
         if (currentPage.value > 1) {
           currentPage.value--;
-        }
-      };
-  
-      const abrirPopup = (linha) => {
-        if (!linha?.id) {
-          console.error('Erro: linha ou linha.id está indefinido', linha);
-          return;
-        }
-        linhaEditada.value = { ...linha };
-        popupVisivel.value = true;
-      };
-  
-      const fecharPopup = () => {
-        popupVisivel.value = false;
-        linhaEditada.value = null;
-      };
-  
-      const salvarEdicao = async (linhaEditada) => {
-        if (!linhaEditada?.id) {
-          toast.error('Erro: Dados inválidos.');
-          return;
-        }
-  
-        const { valor, dataEntrada, descricao } = linhaEditada;
-  
-        if (!valor || !dataEntrada || !descricao) {
-          toast.warning('Por favor, preencha todos os campos.');
-          return;
-        }
-  
-        if (isNaN(valor)) {
-          toast.error('O valor deve ser numérico.');
-          return;
-        }
-  
-        try {
-          isLoading.value = true;
-          const response = await editarLinha(linhaEditada.id, linhaEditada);
-  
-          if (response.ok) {
-            const dadosAtualizados = await response.json();
-            props.atualizarTabela(dadosAtualizados);
-            toast.success('Dados atualizados com sucesso!');
-          } else {
-            toast.error('Erro ao atualizar os dados.');
-          }
-        } catch (error) {
-          console.error('Erro ao salvar edição:', error);
-          toast.error('Erro ao conectar ao servidor.');
-        } finally {
-          isLoading.value = false;
-          fecharPopup();
-        }
-      };
-  
-      const abrirModalConfirmacao = (id) => {
-        linhaParaDeletar.value = id;
-        modalVisivel.value = true;
-      };
-  
-      const fecharModalConfirmacao = () => {
-        modalVisivel.value = false;
-        linhaParaDeletar.value = null;
-      };
-  
-      const deletarLinha = async () => {
-        if (!linhaParaDeletar.value) {
-          toast.error('Erro: ID inválido.');
-          return;
-        }
-  
-        try {
-          const index = props.tabelaDados.findIndex((item) => item.id === linhaParaDeletar.value);
-          if (index !== -1) {
-            const idRemovido = linhaParaDeletar.value;
-  
-            props.tabelaDados.splice(index, 1);
-            toast.success('Linha removida com sucesso.');
-            await deletarLinhaAPI(idRemovido);
-          }
-        } catch (error) {
-          console.error('Erro ao excluir linha:', error);
-          toast.error('Erro ao excluir do banco de dados.');
-        } finally {
-          fecharModalConfirmacao();
         }
       };
   
@@ -268,23 +133,13 @@
   
       return {
         isLoading,
-        popupVisivel,
-        linhaEditada,
         modalVisivel,
-        linhaParaDeletar,
-        abrirPopup,
-        fecharPopup,
-        salvarEdicao,
-        abrirModalConfirmacao,
-        fecharModalConfirmacao,
-        deletarLinha,
         currentPage,
         totalPages,
         paginatedData,
         nextPage,
         prevPage,
         itemsPerPage,
-        saldo,
         startDate,
         endDate,
         filtrarPorData,
@@ -322,12 +177,6 @@
   #itemsPerPage {
     margin-left: 5px;
     border-radius: 3px;
-  }
-  
-  .saldo-container {
-    font-family: 'Lato', sans-serif;
-    font-size: 16px;
-    color: var(--binance-white);
   }
   
   .date-filter {
@@ -413,11 +262,6 @@
   
   .icon-button:hover {
     transform: scale(1.1);
-  }
-  
-  .icon-button .fa-trash {
-    color: #ff4c4c;
-    margin-left: 40px;
   }
   
   .spinner-container {

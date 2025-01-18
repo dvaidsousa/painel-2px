@@ -1,19 +1,19 @@
 module.exports = (sequelize, DataTypes) => {
     const Facebook = sequelize.define('Facebook', {
-      valor: {
-        type: DataTypes.DECIMAL(10, 2), // Definindo tipo DECIMAL com precisão
+      investimento: {
+        type: DataTypes.DECIMAL(10, 2), // Alterado para DECIMAL para suportar valores como 2,50
         allowNull: false,
       },
-      tipo: {
-        type: DataTypes.ENUM('entrada', 'saida'), // Tipo ENUM, com as opções 'entrada' e 'saida'
+      leads: {
+        type: DataTypes.INTEGER,
         allowNull: false,
       },
-      dataEntrada: {
-        type: DataTypes.DATEONLY, // Garantindo que a data seja sem horário
+      custoPorLead: {
+        type: DataTypes.DECIMAL(10, 2), // Alterado para DECIMAL para suportar valores como 2,50
         allowNull: false,
       },
-      descricao: {
-        type: DataTypes.STRING(255), // Aumentando o tamanho do campo descricao
+      impressao: {
+        type: DataTypes.DECIMAL(10, 2),
         allowNull: false,
       },
       userId: {
