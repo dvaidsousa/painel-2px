@@ -1,5 +1,5 @@
 module.exports = (sequelize, DataTypes) => {
-    const Financa = sequelize.define('Financa', {
+    const Facebook = sequelize.define('Facebook', {
       valor: {
         type: DataTypes.DECIMAL(10, 2), // Definindo tipo DECIMAL com precisão
         allowNull: false,
@@ -26,7 +26,17 @@ module.exports = (sequelize, DataTypes) => {
         onUpdate: 'CASCADE',
         onDelete: 'CASCADE',
       },
+    }, {
+      tableName: 'Facebook', // Define explicitamente o nome da tabela
+      freezeTableName: true  // Impede o Sequelize de pluralizar o nome
     });
 
-    return Financa;
+    Facebook.associate = (models) => {
+      Facebook.belongsTo(models.User, {
+        foreignKey: 'userId',
+        as: 'user'
+      });
+    };
+
+    return Facebook;
   };

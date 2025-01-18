@@ -7,8 +7,8 @@
         <div class="container">
           <h1>Dashboard</h1>
           <br>
-          <FinanceForm @novaEntrada="manipularTabela" :atualizarTabela="manipularTabela" />
-          <FinanceTable
+          <FacebookForm @novaEntrada="manipularTabela" :atualizarTabela="manipularTabela" />
+          <FacebookTable
             :tabelaDados="tabelaDados" 
             @atualizar-tabela="manipularTabela" 
             :linhaId="tabelaDados.map(item => item.id)" 
@@ -30,18 +30,18 @@
 import { ref, onMounted } from 'vue';
 import Headers from "../components/Global/Headers.vue";
 import Sidebar from "../components/Global/Sidebar.vue";
-import FinanceForm from "../components/Dashboard/FinanceForm.vue";
-import FinanceTable from "../components/Dashboard/FinanceTable.vue";
+import FacebookForm from "../components/Dashboard/FacebookForm.vue";
+import FacebookTable from "../components/Dashboard/FacebookTable.vue";
 import ButtonScroll from "../components/Global/ButtonScroll.vue";
 import Footers from "../components/Global/Footers.vue";
-import { listarFinancas } from '../services/financasService';
+import { listarFacebook } from '../services/facebookService';
 
 export default {
   components: {
     Headers,
     Sidebar,
-    FinanceForm,
-    FinanceTable,
+    FacebookForm,
+    FacebookTable,
     ButtonScroll,
     Footers,
   },
@@ -51,7 +51,7 @@ export default {
 
     const carregarDados = async () => {
       try {
-        const response = await listarFinancas();
+        const response = await listarFacebook();
         tabelaDados.value = response;
         erroCarregamento.value = null;
       } catch (error) {

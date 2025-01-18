@@ -3,7 +3,7 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const cors = require('cors');
 const authRoutes = require('./routes/auth');
-const financaRoutes = require('./routes/financas');
+const facebookRoutes = require('./routes/facebook');
 const notasRoutes = require('./routes/notas');
 const { sequelize } = require('./models');
 const authenticateToken = require('./middleware/auth');
@@ -21,7 +21,7 @@ app.use(bodyParser.json());
 
 app.use('/api/auth', authRoutes);
 app.use('/api/notas', notasRoutes);
-app.use('/api/financas', authenticateToken, financaRoutes);
+app.use('/api/facebook', authenticateToken, facebookRoutes);
 
 async function initializeDatabase() {
   try {

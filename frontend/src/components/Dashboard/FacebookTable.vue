@@ -25,7 +25,7 @@
           <input type="date" v-model="endDate" id="endDate" @change="filtrarPorData" />
         </div>
       </div>
-      <table class="finance-table" v-if="!isLoading">
+      <table class="facebook-table" v-if="!isLoading">
         <thead>
           <tr>
             <th>Valor</th>
@@ -86,7 +86,7 @@
   import { ref, onMounted, computed } from 'vue';
   import EditTable from './EditButtonTable.vue';
   import ConfirmModal from '../Dashboard/ConfirmModal.vue';
-  import { editarLinha, deletarLinha as deletarLinhaAPI, listarFinancas } from '../../services/financasService';
+  import { editarLinha, deletarLinha as deletarLinhaAPI, listarFacebook } from '../../services/facebookService';
   import { useToast } from 'vue-toastification';
   
   export default {
@@ -247,13 +247,13 @@
         }
       };
   
-      const fetchFinancas = async () => {
+      const fetchFacebook = async () => {
         try {
           isLoading.value = true;
-          const dados = await listarFinancas();
+          const dados = await listarFacebook();
           props.atualizarTabela(dados);
         } catch (error) {
-          console.error('Erro ao buscar finanças:', error);
+          console.error('Erro ao buscar facebook:', error);
           toast.error('Erro ao buscar dados.');
         } finally {
           isLoading.value = false;
@@ -264,7 +264,7 @@
         currentPage.value = 1; // Resetar para a primeira página ao filtrar
       };
   
-      onMounted(fetchFinancas);
+      onMounted(fetchFacebook);
   
       return {
         isLoading,
@@ -359,7 +359,7 @@
     font-size: 12px;
   }
   
-  .finance-table {
+  .facebook-table {
     width: 100%;
     border-collapse: collapse;
     background-color: var(--binance-white);
@@ -367,7 +367,7 @@
     overflow: hidden;
   }
   
-  .finance-table thead {
+  .facebook-table thead {
     background-color: var(--binance-black2);
     color: var(--binance-white);
   }
@@ -378,24 +378,24 @@
     font-weight: 700;
   }
   
-  .finance-table th, .finance-table td {
+  .facebook-table th, .facebook-table td {
     padding: 8px 17px; /* Diminuir a altura das listas da coluna */
     text-align: left;
     font-family: 'Lato', sans-serif;
     font-size: 14px;
   }
   
-  .finance-table tbody tr {
+  .facebook-table tbody tr {
     transition: background-color 0.3s ease;
   }
   
-  .finance-table th {
+  .facebook-table th {
     font-weight: 600;
     letter-spacing: 0.01rem;
   }
   
   /* Estilos para a linha de entrada */
-  .finance-table tbody tr {
+  .facebook-table tbody tr {
     background-color: var(--binance-black3);
     font-family: 'Lato', sans-serif;
     font-size: 15px;

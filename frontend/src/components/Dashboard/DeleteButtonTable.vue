@@ -21,7 +21,7 @@
     methods: {
       async confirmarExclusao() {
         try {
-          const response = await fetch(`http://localhost:3000/api/financas/deletar/${this.linhaId}`, {
+          const response = await fetch(`http://localhost:3000/api/facebook/deletar/${this.linhaId}`, {
             method: 'DELETE',
             headers: { 'Content-Type': 'application/json' },
           });

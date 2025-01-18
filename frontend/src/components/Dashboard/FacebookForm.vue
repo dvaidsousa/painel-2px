@@ -67,7 +67,7 @@
   <script>
   import { ref, onMounted } from 'vue';
   import { useToast } from 'vue-toastification';
-  import { adicionarEntrada } from '@/services/financasService';
+  import { adicionarEntrada } from '@/services/facebookService';
   
   export default {
     props: {

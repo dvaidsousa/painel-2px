@@ -69,7 +69,7 @@
           console.log('Dados que serão enviados para a API:', linhaEditada.value);
   
           const token = localStorage.getItem('token');
-          const response = await fetch(`http://localhost:3000/api/financas/editar/${linhaEditada.value.id}`, {
+          const response = await fetch(`http://localhost:3000/api/facebook/editar/${linhaEditada.value.id}`, {
             method: 'PUT',
             headers: {
               'Content-Type': 'application/json',

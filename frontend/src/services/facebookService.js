@@ -2,11 +2,11 @@
 const API_URL = 'http://localhost:3000/api';
 
 // Função para listar todas as finanças
-export const listarFinancas = async () => {
+export const listarFacebook = async () => {
   // Obtém o token de autenticação do localStorage
   const token = localStorage.getItem('token');
   // Faz uma requisição GET para listar as finanças
-  const response = await fetch('http://localhost:3000/api/financas/listar', {
+  const response = await fetch('http://localhost:3000/api/facebook/listar', {
     headers: {
       'Content-Type': 'application/json', // Define o tipo de conteúdo como JSON
       'Authorization': `Bearer ${token}`, // Adiciona o token no cabeçalho
@@ -20,11 +20,11 @@ export const listarFinancas = async () => {
 };
 
 // ------------------------------------------------------------------------------------------------
-// Função para editar uma linha de dados financeiros
+// Função para editar uma linha de dados facebook
 export async function editarLinha(id, dados) {
   try {
     // Faz uma requisição PUT para editar a linha com o ID especificado
-    const response = await fetch(`http://localhost:3000/api/financas/editar/${id}`, {
+    const response = await fetch(`http://localhost:3000/api/facebook/editar/${id}`, {
       method: 'PUT',
       headers: { 'Content-Type': 'application/json' }, // Define o tipo de conteúdo como JSON
       body: JSON.stringify(dados), // Converte os dados para JSON e os envia no corpo da requisição
@@ -52,13 +52,13 @@ export async function editarLinha(id, dados) {
 }
 
 // ------------------------------------------------------------------------------------------------
-// Função para deletar uma linha de dados financeiros
+// Função para deletar uma linha de dados facebook
 export async function deletarLinha(id) {
   try {
     // Obtém o token de autenticação do localStorage
     const token = localStorage.getItem('token');
     // Faz uma requisição DELETE para excluir a linha com o ID especificado
-    const response = await fetch(`http://localhost:3000/api/financas/deletar/${id}`, {
+    const response = await fetch(`http://localhost:3000/api/facebook/deletar/${id}`, {
       method: 'DELETE',
       headers: {
         'Content-Type': 'application/json', // Define o tipo de conteúdo como JSON
@@ -79,13 +79,13 @@ export async function deletarLinha(id) {
 }
 
 // ------------------------------------------------------------------------------------------------
-// Função para adicionar uma nova entrada de dados financeiros
+// Função para adicionar uma nova entrada de dados facebook
 export async function adicionarEntrada(dados) {
   try {
     // Obtém o token de autenticação do localStorage
     const token = localStorage.getItem('token');
     // Faz uma requisição POST para adicionar uma nova entrada
-    const response = await fetch('http://localhost:3000/api/financas/adicionar', {
+    const response = await fetch('http://localhost:3000/api/facebook/adicionar', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json', // Define o tipo de conteúdo como JSON
