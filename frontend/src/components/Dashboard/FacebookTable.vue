@@ -1,8 +1,5 @@
 <template>
     <div class="table-container">
-      <div v-if="isLoading" class="spinner-container">
-        <div class="spinner"></div>
-      </div>
       <div class="header-container">
         <div class="items-per-page-selector">
           <label for="itemsPerPage">Itens por página:</label>
@@ -151,7 +148,7 @@
   <style scoped>
   .table-container {
     overflow-x: auto;
-    width: 80%;
+    width: 75%;
     margin: 20px 0px 0px 25px;
     border-radius: 12px;
   }
@@ -262,37 +259,6 @@
   
   .icon-button:hover {
     transform: scale(1.1);
-  }
-  
-  .spinner-container {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background-color: rgba(0, 0, 0, 0.5);
-    z-index: 1000;
-  }
-  
-  .spinner {
-    border: 4px solid #f3f3f3;
-    border-top: 4px solid #007bff;
-    border-radius: 50%;
-    width: 40px;
-    height: 40px;
-    animation: spin 0.8s linear infinite;
-  }
-  
-  @keyframes spin {
-    0% {
-      transform: rotate(0deg);
-    }
-    100% {
-      transform: rotate(360deg);
-    }
   }
   
   .pagination {

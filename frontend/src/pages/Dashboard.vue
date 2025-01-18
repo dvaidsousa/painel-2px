@@ -7,7 +7,6 @@
         <div class="container">
           <h1>Dashboard</h1>
           <br>
-          <FacebookForm @novaEntrada="manipularTabela" :atualizarTabela="manipularTabela" />
           <FacebookTable
             :tabelaDados="tabelaDados" 
             @atualizar-tabela="manipularTabela" 
@@ -30,7 +29,6 @@
 import { ref, onMounted } from 'vue';
 import Headers from "../components/Global/Headers.vue";
 import Sidebar from "../components/Global/Sidebar.vue";
-import FacebookForm from "../components/Dashboard/FacebookForm.vue";
 import FacebookTable from "../components/Dashboard/FacebookTable.vue";
 import ButtonScroll from "../components/Global/ButtonScroll.vue";
 import Footers from "../components/Global/Footers.vue";
@@ -40,7 +38,6 @@ export default {
   components: {
     Headers,
     Sidebar,
-    FacebookForm,
     FacebookTable,
     ButtonScroll,
     Footers,
