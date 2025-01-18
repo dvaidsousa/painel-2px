@@ -17,7 +17,7 @@
                   @notaDeleted="removeNota"
                 />
               </div>
-              <PopupForm v-if="isPopupOpen" @close="closePopup" @submit="handleSubmit" @notaCreated="fetchNotas" />
+              <PopupForm v-if="isPopupOpen" @close="closePopup" @submit="handleSubmitNota" @notaCreated="fetchNotas" />
               <div v-if="notas.length > 2" class="goals-horizontal">
               </div>
             </div>
@@ -85,6 +85,17 @@
         this.notas = this.notas.filter(nota => nota.id !== notaId); // Remove a nota da lista
         if (this.goalData && this.goalData.id === notaId) {
           this.goalData = this.notas[0] || null; // Atualiza goalData se a nota excluída era a atual
+        }
+      },
+
+      // Método para lidar com a submissão da nota
+      async handleSubmitNota(nota) {
+        try {
+          await criarNota(nota);
+          this.fetchNotas(); // Atualiza a lista de notas após a criação
+        } catch (error) {
+          this.errorMessage = error.response?.data?.error || 'Erro ao criar nota'; // Armazena a mensagem de erro
+          console.error('Erro ao criar nota:', this.errorMessage);
         }
       }
     },
