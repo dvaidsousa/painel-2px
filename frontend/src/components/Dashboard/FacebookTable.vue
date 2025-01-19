@@ -240,7 +240,6 @@
     letter-spacing: 0.01rem;
   }
   
-  /* Estilos para a linha de entrada */
   .facebook-table tbody tr {
     background-color: var(--binance-black3);
     font-family: 'Lato', sans-serif;
