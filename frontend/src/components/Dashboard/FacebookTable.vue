@@ -24,6 +24,8 @@
             <th>Leads</th>
             <th>Custo por Lead</th>
             <th>Impressões</th>
+            <th>Contas</th>
+            <th>Criado Em</th> <!-- Adicionado o cabeçalho para a coluna de criação -->
           </tr>
         </thead>
         <tbody>
@@ -33,10 +35,10 @@
           >
             <td :style="{ color: item.tipo }">{{ item.investimento ? item.investimento : '0.00' }}</td>
             <td>{{ item.leads || 0 }}</td>
-            <td>{{ item.custoPorLead ? item.custoPorLead: '0.00' }}</td>
-            <td>{{ item.impressões || 0 }}</td>
-            <td>
-            </td>
+            <td>{{ item.custoPorLead ? item.custoPorLead : '0.00' }}</td>
+            <td>{{ item.impressao || 0 }}</td>
+            <td>{{ item.contas || 0 }}</td>
+            <td>{{ new Date(item.createdAt).toLocaleDateString() }}</td> <!-- Adicionado o valor de criação formatado -->
           </tr>
         </tbody>
       </table>
@@ -207,7 +209,6 @@
   
   .facebook-table {
     width: 100%;
-    border-collapse: collapse;
     background-color: var(--binance-white);
     border-radius: 12px;
     overflow: hidden;

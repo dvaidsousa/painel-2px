@@ -5,7 +5,7 @@ const authenticateToken = require('../middleware/auth');
 
 // Rota POST para adicionar uma nova entrada facebook
 router.post('/adicionar', authenticateToken, async (req, res) => {
-  const { investimento, leads, custoPorLead, impressao } = req.body; // Alterado para os novos nomes das colunas
+  const { investimento, leads, custoPorLead, impressao, contas } = req.body; // Alterado para os novos nomes das colunas
   
   try {
     // Cria uma nova entrada no banco de dados com os novos campos
@@ -14,6 +14,7 @@ router.post('/adicionar', authenticateToken, async (req, res) => {
       leads,
       custoPorLead,
       impressao,
+      contas,
       userId: req.user.id, // Associando a entrada ao usuário autenticado
     });
     res.status(201).json({ message: 'Entrada adicionada com sucesso!', data: novaFacebook });
@@ -39,7 +40,7 @@ router.get('/listar', authenticateToken, async (req, res) => {
 // Rota PUT para editar uma entrada facebook existente
 router.put('/editar/:id', authenticateToken, async (req, res) => { // Adicionado authenticateToken
   const { id } = req.params;
-  const { investimento, leads, custoPorLead, impressao } = req.body; // Alterado para os novos nomes das colunas
+  const { investimento, leads, custoPorLead, impressao, contas } = req.body; // Alterado para os novos nomes das colunas
 
   try {
     // Verificar se a entrada existe no banco de dados
@@ -54,7 +55,7 @@ router.put('/editar/:id', authenticateToken, async (req, res) => { // Adicionado
     }
 
     // Atualizar a entrada com os novos dados
-    await entrada.update({ investimento, leads, custoPorLead, impressao });
+    await entrada.update({ investimento, leads, custoPorLead, impressao, contas });
 
     // Retornar a entrada atualizada
     res.status(200).json({
