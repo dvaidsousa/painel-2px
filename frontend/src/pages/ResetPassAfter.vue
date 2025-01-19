@@ -4,6 +4,7 @@
       <img src="../assets/logo-nof.png" alt="Logo" class="logo">
       <div class="header">
         <h2 class="title">Redefinir Senha</h2>
+        <p class="subtitle">Digite sua nova senha abaixo</p>
       </div>
       <div class="form-wrapper">
         <div class="form-container">
@@ -57,7 +58,7 @@ export default {
       try {
         await redefinirSenha(token, this.newPassword);
         this.showToast('Senha redefinida com sucesso!');
-        this.$router.push('/login'); // Redireciona para a página de login
+        this.$router.push('/'); // Redireciona para a página de login
       } catch (error) {
         this.showToast(error.message, 'error');
       }
@@ -99,6 +100,14 @@ export default {
   font-size: 2.2rem;
   font-family: 'Lato', sans-serif;
   font-weight: bold;
+  color: var(--binance-white);
+}
+
+.subtitle {
+  font-family: 'Lato', sans-serif;
+  max-width: 480px;
+  margin: 0 auto;
+  font-size: 1.25rem;
   color: var(--binance-white);
 }
 
@@ -164,7 +173,7 @@ export default {
   font-family: 'Lato', sans-serif;
   font-weight: 600;
   color: var(--binance-black);
-  background-color: var(--binance-yellow);
+  background-color: var(--binance-red);
   border: none;
   border-radius: 0.5rem;
   transition: all 0.2s;
@@ -172,6 +181,16 @@ export default {
 
 .submit-button:hover,
 .submit-button:focus {
-  background-color: var(--binance-yellow);
+  background-color: var(--binance-red-hover);
+}
+
+.text-base {
+  font-family: 'Lato', sans-serif;
+  color: var(--binance-white);
+}
+
+.link {
+  color: #e03d3d;
+  text-decoration: none;
 }
 </style>

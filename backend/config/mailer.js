@@ -45,8 +45,7 @@ const sendEmail = async (to, subject, html) => {
 const sendPasswordResetEmail = async (email, resetLink) => {
   const subject = 'Recuperação de Senha';
   const html = `
-    <img src="https://res.cloudinary.com/dhv2niza5/image/upload/v1735965611/hrb5wqsrw6xgbmizdvtn.png" alt="Logo" style="width: 100%; max-width: 100px;"/>
-    <p>Olá,</p>
+    <p>Olá, esse é um email automático, da 2px Digital.</p>
     <p>Recebemos um pedido para redefinir sua senha. Para continuar, clique no link abaixo:</p>
     <p><a href="${resetLink}">Clique aqui</a></p>
     <p>Se você não solicitou essa redefinição, pode ignorar este e-mail.</p>

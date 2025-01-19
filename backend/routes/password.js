@@ -30,7 +30,7 @@ router.post('/forgot-password', async (req, res) => {
     const resetLink = `${process.env.FRONTEND_URL}/reset-password/${resetToken}`;
     await sendPasswordResetEmail(email, resetLink);
 
-    res.status(200).json({ message: 'E-mail de redefinição de senha enviado com sucesso!' });
+    res.json({ message: 'E-mail de redefinição de senha enviado com sucesso!' });
   } catch (error) {
     console.error('Erro ao processar solicitação de redefinição de senha:', error);
     res.status(500).json({ message: 'Erro ao processar a solicitação.' });
@@ -74,7 +74,7 @@ router.post('/reset-password/:token', async (req, res) => {
     user.resetTokenExpire = null;
     await user.save();
 
-    res.status(200).json({ message: 'Senha redefinida com sucesso!' });
+    res.json({ message: 'Senha redefinida com sucesso!' });
   } catch (error) {
     console.error('Erro ao redefinir senha:', error);
     res.status(500).json({ message: 'Erro ao redefinir a senha.' });

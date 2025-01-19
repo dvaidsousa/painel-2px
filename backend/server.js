@@ -6,6 +6,7 @@ const authRoutes = require('./routes/auth');
 const facebookRoutes = require('./routes/facebook');
 const notasRoutes = require('./routes/notas');
 const { sequelize } = require('./models');
+const passwordRoutes = require('./routes/password');
 const authenticateToken = require('./middleware/auth');
 
 const app = express();
@@ -22,6 +23,7 @@ app.use(bodyParser.json());
 app.use('/api/auth', authRoutes);
 app.use('/api/notas', notasRoutes);
 app.use('/api/facebook', authenticateToken, facebookRoutes);
+app.use('/api/password', passwordRoutes);
 
 async function initializeDatabase() {
   try {

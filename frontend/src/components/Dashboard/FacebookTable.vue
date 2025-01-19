@@ -1,4 +1,10 @@
 <template>
+  <h1 class="title-facebook">Gestão de anúncios do Facebook</h1>
+  <div class="somas-container">
+    <span class="total-investment">Total Investido: {{ totalInvestimento ? totalInvestimento.toFixed(2) : '0.00' }}</span>
+    <span class="total-leads">Total de Leads: {{ totalLeads || 0 }}</span>
+    <span class="total-impressao">Total de Impressões: {{ totalImpressao || 0 }}</span>
+  </div>
     <div class="table-container">
       <div class="header-container">
         <div class="items-per-page-selector">
@@ -22,10 +28,10 @@
           <tr>
             <th>Investimento</th>
             <th>Leads</th>
-            <th>Custo por Lead</th>
+            <th>CPL (Média)</th>
             <th>Impressões</th>
             <th>Contas</th>
-            <th>Criado Em</th> <!-- Adicionado o cabeçalho para a coluna de criação -->
+            <th>Criado Em</th>
           </tr>
         </thead>
         <tbody>
@@ -33,12 +39,12 @@
             v-for="(item, index) in paginatedData"
             :key="item.id || index"
           >
-            <td :style="{ color: item.tipo }">{{ item.investimento ? item.investimento : '0.00' }}</td>
+            <td :style="{ color: item.tipo }">{{ item.investimento ? parseFloat(item.investimento).toFixed(2) : '0.00' }}</td>
             <td>{{ item.leads || 0 }}</td>
-            <td>{{ item.custoPorLead ? item.custoPorLead : '0.00' }}</td>
+            <td>{{ item.custoPorLead ? parseFloat(item.custoPorLead).toFixed(2) : '0.00' }}</td>
             <td>{{ item.impressao || 0 }}</td>
             <td>{{ item.contas || 0 }}</td>
-            <td>{{ new Date(item.createdAt).toLocaleDateString() }}</td> <!-- Adicionado o valor de criação formatado -->
+            <td>{{ new Date(item.createdAt).toLocaleDateString() }}</td>
           </tr>
         </tbody>
       </table>
@@ -54,8 +60,12 @@
   import { ref, onMounted, computed } from 'vue';
   import { listarFacebook } from '../../services/facebookService';
   import { useToast } from 'vue-toastification';
-  
+  import BarChartFacebook from '../Dashboard/BarChartFacebook.vue';
+
   export default {
+    components: {
+      BarChartFacebook
+    },
     props: {
       tabelaDados: {
         type: Array,
@@ -86,11 +96,23 @@
   
       const filtradosPorData = computed(() => {
         return props.tabelaDados.filter(item => {
-          const dataEntrada = new Date(item.dataEntrada);
+          const dataEntrada = new Date(item.createdAt);
           const dataInicio = new Date(startDate.value);
           const dataFim = new Date(endDate.value);
           return (!startDate.value || dataEntrada >= dataInicio) && (!endDate.value || dataEntrada <= dataFim);
         });
+      });
+
+      const totalInvestimento = computed(() => {
+        return filtradosPorData.value.reduce((acc, item) => acc + (parseFloat(item.investimento) || 0), 0);
+      });
+
+      const totalLeads = computed(() => {
+        return filtradosPorData.value.reduce((acc, item) => acc + (item.leads || 0), 0);
+      });
+
+      const totalImpressao = computed(() => {
+        return filtradosPorData.value.reduce((acc, item) => acc + (parseFloat(item.impressao) || 0), 0);
       });
   
       const paginatedData = computed(() => {
@@ -125,7 +147,7 @@
       };
   
       const filtrarPorData = () => {
-        currentPage.value = 1; // Resetar para a primeira página ao filtrar
+        currentPage.value = 1;
       };
   
       onMounted(fetchFacebook);
@@ -142,6 +164,9 @@
         startDate,
         endDate,
         filtrarPorData,
+        totalInvestimento,
+        totalLeads,
+        totalImpressao,
       };
     },
   };
@@ -152,7 +177,7 @@
     overflow-x: auto;
     width: 75%;
     margin: 20px 0px 0px 25px;
-    border-radius: 12px;
+    border-radius: 3px;
   }
   
   .header-container {
@@ -160,6 +185,31 @@
     justify-content: space-between;
     align-items: center;
     margin: 5px 20px;
+  }
+
+  .title-facebook {
+    margin: 5px 20px 0px 45px;
+    font-family: 'Lato', sans-serif;
+    font-size: 18px;
+    color: var(--binance-white);
+    font-weight: 600;
+    letter-spacing: 0.01rem;
+  }
+
+  .somas-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin: 5px 20px 0px 25px;
+    font-family: 'Lato', sans-serif;
+    font-size: 14px;
+    color: var(--binance-white);
+    font-weight: 600;
+    letter-spacing: 0.01rem;
+    border-radius: 3px;
+    width: 50%;
+    background-color: var(--binance-black3);
+    padding: 10px 10px;
   }
   
   .items-per-page-selector {
@@ -176,6 +226,27 @@
   #itemsPerPage {
     margin-left: 5px;
     border-radius: 3px;
+  }
+
+  .total-investment {
+    margin-left: 10px;
+    font-family: 'Lato', sans-serif;
+    font-size: 14px;
+    color: var(--binance-white);
+  }
+
+  .total-leads {
+    margin-left: 10px;
+    font-family: 'Lato', sans-serif;
+    font-size: 14px;
+    color: var(--binance-white);
+  }
+
+  .total-impressao {
+    margin-left: 10px;
+    font-family: 'Lato', sans-serif;
+    font-size: 14px;
+    color: var(--binance-white);
   }
   
   .date-filter {
@@ -210,12 +281,12 @@
   .facebook-table {
     width: 100%;
     background-color: var(--binance-white);
-    border-radius: 12px;
+    border-radius: 8px;
     overflow: hidden;
   }
   
   .facebook-table thead {
-    background-color: var(--binance-black2);
+    background-color: #973636;
     color: var(--binance-white);
   }
   
@@ -226,7 +297,7 @@
   }
   
   .facebook-table th, .facebook-table td {
-    padding: 8px 17px; /* Diminuir a altura das listas da coluna */
+    padding: 8px 17px;
     text-align: left;
     font-family: 'Lato', sans-serif;
     font-size: 14px;
@@ -283,7 +354,8 @@
   }
   
   .pagination button:disabled {
-    background-color: #8d8d8d;
+    background-color: #8d8d8d00;
+    border: 1px solid #8d8d8d;
     cursor: not-allowed;
   }
   
