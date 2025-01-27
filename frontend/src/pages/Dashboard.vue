@@ -7,15 +7,9 @@
         <div class="container">
           <h1>Dashboard</h1>
           <br>
-          <FacebookTable
-            :tabelaDados="tabelaDados" 
-            @atualizar-tabela="manipularTabela" 
-            :linhaId="tabelaDados.map(item => item.id)" 
-            :atualizarTabela="manipularTabela"
-            class="table-container"
-          />
-          <div v-if="erroCarregamento" class="error-message">
-            {{ erroCarregamento }}
+          <div v-if="dashboardCode" v-html="dashboardCode"></div> <!-- Renderiza o código do iframe se disponível -->
+          <div v-else> <!-- Mensagem de erro se o código do dashboard não estiver disponível -->
+            <p>Nenhum dashboard encontrado.</p>
           </div>
         </div>
       </div>
@@ -26,62 +20,31 @@
 </template>
 
 <script>
-import { ref, onMounted } from 'vue';
 import Headers from "../components/Global/Headers.vue";
 import Sidebar from "../components/Global/Sidebar.vue";
-import FacebookTable from "../components/Dashboard/FacebookTable.vue";
 import ButtonScroll from "../components/Global/ButtonScroll.vue";
 import Footers from "../components/Global/Footers.vue";
-import { listarFacebook } from '../services/facebookService';
+import { getDashboard } from '../services/dashboard'; // Importando a função para obter o dashboard
 
 export default {
   components: {
     Headers,
     Sidebar,
-    FacebookTable,
     ButtonScroll,
     Footers,
   },
-  setup() {
-    const tabelaDados = ref([]);
-    const erroCarregamento = ref(null);
-
-    const carregarDados = async () => {
-      try {
-        const response = await listarFacebook();
-        tabelaDados.value = response;
-        erroCarregamento.value = null;
-      } catch (error) {
-        erroCarregamento.value = error.message;
-        console.error('Erro de conexão:', error);
-      }
-    };
-
-    const manipularTabela = (entrada) => {
-      if (!entrada || !entrada.id) {
-        return;
-      }
-
-      const index = tabelaDados.value.findIndex(item => item.id === entrada.id);
-      if (index !== -1) {
-        // Atualiza o item existente
-        tabelaDados.value[index] = entrada;
-      } else {
-        // Adiciona novo item
-        tabelaDados.value.push(entrada);
-      }
-
-      // Recarregar a tabela após adicionar uma nova entrada
-      carregarDados(); // Chama a função para recarregar as finanças
-    };
-
-    onMounted(carregarDados);
-
+  data() {
     return {
-      tabelaDados,
-      erroCarregamento,
-      manipularTabela,
+      dashboardCode: null, // Propriedade para armazenar o código do iframe
     };
+  },
+  async mounted() {
+    try {
+      this.dashboardCode = await getDashboard(); // Atribuindo o código do iframe diretamente
+    } catch (error) {
+      console.error('Erro ao carregar o dashboard:', error.message); // Exibe a mensagem de erro detalhada
+      this.dashboardCode = null; // Garantindo que dashboardCode seja nulo em caso de erro
+    }
   },
 };
 </script>
@@ -94,14 +57,14 @@ export default {
 }
 
 .sidebar {
-  height: 86vh; /* Ajusta a altura da sidebar para ser responsiva */
-  flex: 0 0 250px; /* Largura fixa para a sidebar */
+  height: 86vh;
+  flex: 0 0 250px;
 }
 
 .container {
   background-color: var(--binance-black);
-  padding: 20px; /* Ajusta o padding para melhor responsividade */
-  flex-grow: 1; /* Permite que o container cresça */
+  padding: 20px;
+  flex-grow: 1;
 }
 
 h1 {
@@ -109,22 +72,20 @@ h1 {
   font-size: 22px;
   font-weight: 700;
   color: var(--binance-white);
-  padding: 0 0 0 40px; /* Remove padding lateral */
+  padding: 0 0 0 40px;
 }
 
-.error-message {
-  color: var(--binance-red);
-  font-weight: bold;
-  margin-top: 10px;
-}
-
-.table-container {
-  margin-bottom: 30px;
+p {
+  font-family: 'Lato', sans-serif;
+  font-size: 16px;
+  font-weight: 400;
+  color: var(--binance-white);
+  padding: 0 0 0 40px;
 }
 
 @media (min-width: 768px) {
   .flex-container {
-    flex-direction: row; /* Muda para row em telas maiores */
+    flex-direction: row;
   }
 }
 </style>
