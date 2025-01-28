@@ -44,6 +44,7 @@
         goalName: '',
         goalValue: '',
         isSubmitting: false,
+        successMessage: '', // Adicionando uma propriedade para armazenar mensagens de sucesso
       };
     },
     methods: {
@@ -57,6 +58,7 @@
         };
         try {
           await criarNota(goalData);
+          this.successMessage = 'Nota criada com sucesso!'; // Mensagem de sucesso
           this.$emit('close'); // Fecha o popup após a criação
           this.$emit('notaCreated'); // Emite um evento para atualizar a lista de notas
         } catch (error) {
@@ -72,6 +74,7 @@
         this.step = 1;
         this.goalName = '';
         this.goalValue = '';
+        this.successMessage = ''; // Reseta a mensagem de sucesso
       },
     },
   };

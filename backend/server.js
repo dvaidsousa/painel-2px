@@ -3,7 +3,6 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const cors = require('cors');
 const authRoutes = require('./routes/auth');
-const facebookRoutes = require('./routes/facebook');
 const notasRoutes = require('./routes/notas');
 const passwordRoutes = require('./routes/password');
 const dashboardRoutes = require('./routes/dashboard');
@@ -23,7 +22,6 @@ app.use(bodyParser.json());
 
 app.use('/api/auth', authRoutes);
 app.use('/api/notas', notasRoutes);
-app.use('/api/facebook', authenticateToken, facebookRoutes);
 app.use('/api/password', passwordRoutes);
 app.use('/api/dashboard', dashboardRoutes);
 

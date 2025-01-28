@@ -33,7 +33,7 @@
   import Headers from "../components/Global/Headers.vue";
   import Sidebar from "../components/Global/Sidebar.vue";
   import CardButton from "../components/Notas/cardButton.vue";
-  import PopupForm from "../components/Notas/PopupForm.vue";
+  import PopupForm from "../components/Notas/popupForm.vue";
   import GoalDisplay from "../components/Notas/GoalDisplay.vue";
   import ButtonScroll from "../components/Global/ButtonScroll.vue";
   import Footers from "../components/Global/Footers.vue";
@@ -76,7 +76,6 @@
           this.errorMessage = null; // Limpa a mensagem de erro ao buscar com sucesso
         } catch (error) {
           this.errorMessage = error.response?.data?.error || 'Erro inesperado'; // Armazena a mensagem de erro
-          console.error('Erro ao listar notas:', this.errorMessage);
         }
       },
   
@@ -95,7 +94,6 @@
           this.fetchNotas(); // Atualiza a lista de notas após a criação
         } catch (error) {
           this.errorMessage = error.response?.data?.error || 'Erro ao criar nota'; // Armazena a mensagem de erro
-          console.error('Erro ao criar nota:', this.errorMessage);
         }
       }
     },

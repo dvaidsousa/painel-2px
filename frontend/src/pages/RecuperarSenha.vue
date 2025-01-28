@@ -66,7 +66,7 @@ export default {
     },
     async recoverPassword() {
       try {
-        await axios.post('http://localhost:3000/api/auth/forgot-password', {
+        await axios.post(`${process.env.VUE_APP_API_URL}/auth/forgot-password`, {
           email: this.email,
         });
         this.showToast('Instruções para redefinição de senha enviadas para seu email!');

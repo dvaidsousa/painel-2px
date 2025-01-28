@@ -49,7 +49,6 @@ export default {
         this.$emit('notaDeleted', this.goalData.id);
         this.isConfirmModalVisible = false;
       } catch (error) {
-        console.error('Erro ao deletar nota:', error);
         alert('Erro ao deletar nota: ' + (error.response?.data?.error || 'Erro desconhecido'));
       }
     },

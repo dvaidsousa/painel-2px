@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 // URL base da API  
-const API_URL = 'http://localhost:3000/api';
+const API_URL = process.env.VUE_APP_API_URL; // Utiliza a variável de ambiente para a URL da API
 
 // Função para obter o dashboard do usuário autenticado
 export const getDashboard = async () => {
