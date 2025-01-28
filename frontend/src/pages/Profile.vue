@@ -16,7 +16,6 @@
             <label for="iframeInput" class="iframe-label"><strong>Código do Dashboard:</strong></label>
             <input type="text" id="iframeInput" v-model="iframeCode" placeholder="Cole o código do iframe aqui" class="iframe-input" />
             <button @click="addDashboard" class="submit-button">Adicionar</button>
-            <button @click="deleteAllDashboards" class="delete-button">Excluir</button>
           </div>
         </div>
       </div>
@@ -30,7 +29,7 @@ import Headers from "../components/Global/Headers.vue";
 import Sidebar from "../components/Global/Sidebar.vue";
 import Footers from "../components/Global/Footers.vue";
 import { getUserData } from '../services/userService'; // Importando a função do serviço
-import { createDashboard, checkExistingDashboard, deleteAllDashboards } from '../services/dashboard'; // Removendo deleteDashboard
+import { createDashboard, checkExistingDashboard } from '../services/dashboard'; // Removendo deleteDashboard
 import { useToast } from 'vue-toastification'; // Importando a função correta
 
 export default {
@@ -80,16 +79,6 @@ export default {
         Toast.success('Dashboard adicionado com sucesso!'); // Notificação de sucesso
       } catch (error) {
         Toast.error('Erro ao adicionar o dashboard.'); // Notificação de erro
-      }
-    },
-    async deleteAllDashboards() {
-      const Toast = useToast(); // Inicializando o Toast
-      try {
-        await deleteAllDashboards(this.userData.id); // Atualizando para usar deleteAllDashboards
-        Toast.success('Dashboard deletados com sucesso!'); // Notificação de sucesso
-      } catch (error) {
-        console.error('Erro ao deletar os dashboards:', error); // Log do erro
-        Toast.error('Erro ao deletar os dashboards.'); // Notificação de erro
       }
     },
   },
@@ -172,19 +161,5 @@ h2 {
 
 .submit-button:hover {
   background-color: var(--binance-blue-hover);
-}
-
-.delete-button {
-  margin-left: 20px;
-  padding: 10px 15px;
-  background-color: var(--binance-red);
-  color: var(--binance-white);
-  border: none;
-  border-radius: 5px;
-  cursor: pointer;
-}
-
-.delete-button:hover {
-  background-color: var(--binance-red-hover);
 }
 </style>
